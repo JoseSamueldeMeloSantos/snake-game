@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
@@ -11,6 +13,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     final SnakeGame snakeGame;
     private Snake snake;
+    private Apple apple;
     private Texture headSprite;
     private Texture tailSprite;
 
@@ -20,7 +23,7 @@ public class GameScreen implements Screen {
         this.headSprite = new Texture(Gdx.files.internal("head.png"));
         this.tailSprite = new Texture(Gdx.files.internal("tail.png"));
         this.camera = new OrthographicCamera();
-        this.snake = new Snake(0, 0, 16, 16);
+        this.apple = new Apple(16, 16);
         this.camera.setToOrtho(false, 400, 240);
     }
 
@@ -39,6 +42,7 @@ public class GameScreen implements Screen {
         snakeGame.batch.setProjectionMatrix(camera.combined);
         snakeGame.batch.begin();
         spawSnake();
+        snakeGame.batch.draw(apple.spr, apple.width, apple.height);
         snakeGame.batch.end();
 
         snake.moveSnake();
@@ -75,5 +79,20 @@ public class GameScreen implements Screen {
         for (int i = 1; i < snake.body.size; i++) {
             snakeGame.batch.draw(tailSprite, snake.body.get(i).x, snake.body.get(i).y);
         }
+    }
+
+    private void eatApple() {
+
+    }
+
+    private boolean isAppleOverLapsSnake(Array<Rectangle> snakeBody) {
+        Apple appleTemp = new Apple(16, 16);
+        for (int i = 0; i < snakeBody.size; i++) {
+            if (appleTemp.overlaps(snakeBody.get(i))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

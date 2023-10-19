@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Snake {
 
-    private Rectangle head;
+    private final Rectangle head;
     Array<Rectangle> body;
     private Direction direction;
     private final int SPEED;
