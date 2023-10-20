@@ -18,7 +18,7 @@ public class Apple extends Rectangle {
     }
 
     public void setRandomPosition() {
-        this.x = 16 * MathUtils.random(0, 25);
-        this.y = 16 * MathUtils.random(0, 15);
+        this.x = 16 * MathUtils.random(1, 24) - 16;
+        this.y = 16 * MathUtils.random(1, 14) - 16;
     }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Snake {
 
-    private final Rectangle head;
+    final Rectangle head;
     Array<Rectangle> body;
     private Direction direction;
     private final int SPEED;
@@ -21,7 +21,6 @@ public class Snake {
         auxD = direction;
         body.add(head);
         body.add(new Rectangle(head.x, head.y - 16, 16, 16));
-        body.add(new Rectangle(head.x, head.y - 16 * 2, 16, 16));
     }
 
     private void moveHead() {

@@ -42,10 +42,12 @@ public class GameScreen implements Screen {
         snakeGame.batch.setProjectionMatrix(camera.combined);
         snakeGame.batch.begin();
         spawSnake();
-        snakeGame.batch.draw(apple.spr, apple.width, apple.height);
+        snakeGame.batch.draw(apple.spr, apple.x, apple.y);
         snakeGame.batch.end();
 
         snake.moveSnake();
+        checkEatApple();
+        checkSnakeDeath();
 
     }
 
@@ -81,18 +83,19 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void eatApple() {
-
+    private void checkEatApple() {
+        Rectangle snakeHead = snake.body.get(0);
+        if (snakeHead.overlaps(apple)) {
+            snake.body.add(new Rectangle(snake.body.get(1).x, snake.body.get(1).y, 16, 16));
+            apple.setRandomPosition();
+        }
     }
 
-    private boolean isAppleOverLapsSnake(Array<Rectangle> snakeBody) {
-        Apple appleTemp = new Apple(16, 16);
-        for (int i = 0; i < snakeBody.size; i++) {
-            if (appleTemp.overlaps(snakeBody.get(i))) {
-                return true;
+    public void checkSnakeDeath() {
+        for (int i = 1; i < snake.body.size; i++) {
+            if (snake.head.overlaps(snake.body.get(i))) {
+                snakeGame.setScreen(new GameScreen(snakeGame));
             }
         }
-
-        return false;
     }
 }
