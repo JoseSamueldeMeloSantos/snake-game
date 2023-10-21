@@ -102,7 +102,6 @@ public class GameScreen implements Screen {
             for (int i = 0; i < snake.body.size; i++) {
                 if (appleTest.overlaps(snake.body.get(i))) {
                     invalidPosition = true;
-                    System.out.println("hello");
                     break;
                 }
                 else {
@@ -110,6 +109,7 @@ public class GameScreen implements Screen {
                 }
             }
         } while (invalidPosition);
+
         apple.setPosition(x, y);
     }
 

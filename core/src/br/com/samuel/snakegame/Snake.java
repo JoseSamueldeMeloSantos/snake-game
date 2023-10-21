@@ -12,6 +12,7 @@ public class Snake {
     private Direction direction;
     private final int SPEED;
     private Direction auxD;
+    private boolean outOfScreen;
 
     public Snake(int x, int y, int width, int height) {
         head = new Rectangle(x, y * 3, width, height);
@@ -19,6 +20,7 @@ public class Snake {
         direction = Direction.STOPPED;
         SPEED = 16;
         auxD = direction;
+        outOfScreen = false;
         body.add(head);
         body.add(new Rectangle(head.x, head.y - 16, 16, 16));
     }
@@ -41,7 +43,7 @@ public class Snake {
             auxD = Direction.LEFT;
         }
 
-        if (head.x % 16 == 0 && head.y % 16 == 0) {
+        if (head.x % 16 == 0 && head.y % 16 == 0 && !outOfScreen) {
             direction = auxD;
         }
 
@@ -70,16 +72,23 @@ public class Snake {
         int sprDimension = 16;
 
         if (head.x < 0) {
+            outOfScreen = true;
             head.x += width + sprDimension;
         }
         else if (head.x > width - sprDimension) {
+            outOfScreen = true;
             head.x -= width + sprDimension;
         }
         else if (head.y < 0) {
+            outOfScreen = true;
             head.y += height + sprDimension;
         }
         else if (head.y > height - sprDimension) {
+            outOfScreen = true;
             head.y -= height + sprDimension;
+        }
+        else {
+            outOfScreen = false;
         }
     }
 
