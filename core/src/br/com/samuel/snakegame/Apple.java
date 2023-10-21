@@ -11,14 +11,19 @@ public class Apple extends Rectangle {
     Texture spr;
 
     public Apple(int width, int heigth) {
-        setRandomPosition();
         this.width = width;
         this.height = heigth;
         spr = new Texture(Gdx.files.internal("apple.png"));
     }
 
-    public void setRandomPosition() {
-        this.x = 16 * MathUtils.random(1, 24) - 16;
-        this.y = 16 * MathUtils.random(1, 14) - 16;
+    public Apple(int x, int y, int width, int heigth) {
+        this(width, heigth);
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setPosition(int x, int y) {
+       this.x = x;
+       this.y = y;
     }
 }

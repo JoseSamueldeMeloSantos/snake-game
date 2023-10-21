@@ -69,13 +69,13 @@ public class Snake {
         float height = 240;
         int sprDimension = 16;
 
-        if (head.x < 0 - sprDimension) {
+        if (head.x < 0) {
             head.x += width + sprDimension;
         }
         else if (head.x > width - sprDimension) {
             head.x -= width + sprDimension;
         }
-        else if (head.y < 0 - sprDimension) {
+        else if (head.y < 0) {
             head.y += height + sprDimension;
         }
         else if (head.y > height - sprDimension) {

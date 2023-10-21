@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
@@ -86,9 +86,31 @@ public class GameScreen implements Screen {
     private void checkEatApple() {
         Rectangle snakeHead = snake.body.get(0);
         if (snakeHead.overlaps(apple)) {
+            setAppleRandomPosition();
             snake.body.add(new Rectangle(snake.body.get(1).x, snake.body.get(1).y, 16, 16));
-            apple.setRandomPosition();
         }
+    }
+
+    private void setAppleRandomPosition() {
+        boolean invalidPosition = false;
+        int x;
+        int y;
+        do {
+            x = 16 * MathUtils.random(1, 24) - 16;
+            y = 16 * MathUtils.random(1, 14) - 16;
+            Apple appleTest = new Apple(x, y, 16, 16);
+            for (int i = 0; i < snake.body.size; i++) {
+                if (appleTest.overlaps(snake.body.get(i))) {
+                    invalidPosition = true;
+                    System.out.println("hello");
+                    break;
+                }
+                else {
+                    invalidPosition = false;
+                }
+            }
+        } while (invalidPosition);
+        apple.setPosition(x, y);
     }
 
     public void checkSnakeDeath() {
