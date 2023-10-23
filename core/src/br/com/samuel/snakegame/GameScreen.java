@@ -16,12 +16,14 @@ public class GameScreen implements Screen {
     private Apple apple;
     private Texture headSprite;
     private Texture tailSprite;
+    private Texture backGroundSprite;
 
     public GameScreen(SnakeGame snakeGame) {
         this.snake = new Snake(0, 0, 16, 16);
         this.snakeGame = snakeGame;
         this.headSprite = new Texture(Gdx.files.internal("head.png"));
         this.tailSprite = new Texture(Gdx.files.internal("tail.png"));
+        this.backGroundSprite = new Texture(Gdx.files.internal("backGround.png"));
         this.camera = new OrthographicCamera();
         this.apple = new Apple(16, 16);
         this.camera.setToOrtho(false, 400, 240);
@@ -41,8 +43,9 @@ public class GameScreen implements Screen {
 
         snakeGame.batch.setProjectionMatrix(camera.combined);
         snakeGame.batch.begin();
+        snakeGame.batch.draw(backGroundSprite, 0, 0);
         spawSnake();
-        snakeGame.batch.draw(apple.spr, apple.x, apple.y);
+        snakeGame.batch.draw(apple.spr, apple.x, apple.y,16, 16);
         snakeGame.batch.end();
 
         snake.moveSnake();
@@ -114,7 +117,7 @@ public class GameScreen implements Screen {
     }
 
     public void checkSnakeDeath() {
-        for (int i = 1; i < snake.body.size; i++) {
+        for (int i = snake.body.size - 1; i > 0; i--) {
             if (snake.head.overlaps(snake.body.get(i))) {
                 snakeGame.setScreen(new GameScreen(snakeGame));
             }
