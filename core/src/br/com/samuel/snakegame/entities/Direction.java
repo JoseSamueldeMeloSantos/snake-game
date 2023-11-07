@@ -1,4 +1,4 @@
-package br.com.samuel.snakegame;
+package br.com.samuel.snakegame.entities;
 
 public enum Direction {
 

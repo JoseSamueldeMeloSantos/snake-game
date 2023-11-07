@@ -1,4 +1,4 @@
-package br.com.samuel.snakegame;
+package br.com.samuel.snakegame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class Snake {
 
-    final Rectangle head;
-    Array<Rectangle> body;
+    public final Rectangle head;
+    public Array<Rectangle> body;
     private Direction direction;
     private final int SPEED;
     private Direction auxD;

@@ -1,4 +1,4 @@
-package br.com.samuel.snakegame;
+package br.com.samuel.snakegame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Apple extends Rectangle {
 
-    Texture spr;
+    public final Texture spr;
 
     public Apple(int width, int heigth) {
         this.width = width;

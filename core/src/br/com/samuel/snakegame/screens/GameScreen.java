@@ -1,5 +1,7 @@
-package br.com.samuel.snakegame;
+package br.com.samuel.snakegame.screens;
 
+import br.com.samuel.snakegame.entities.Apple;
+import br.com.samuel.snakegame.entities.Snake;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,19 +10,24 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class GameScreen implements Screen {
 
     private OrthographicCamera camera;
-    final SnakeGame snakeGame;
+    private final SnakeGame snakeGame;
     private Snake snake;
     private Apple apple;
     private Texture headSprite;
     private Texture tailSprite;
     private Texture backGroundSprite;
+    private Integer score;
 
     public GameScreen(SnakeGame snakeGame) {
         this.snake = new Snake(0, 0, 16, 16);
         this.snakeGame = snakeGame;
+        this.score = 0;
         this.headSprite = new Texture(Gdx.files.internal("head.png"));
         this.tailSprite = new Texture(Gdx.files.internal("tail.png"));
         this.backGroundSprite = new Texture(Gdx.files.internal("backGround.png"));
@@ -46,6 +53,7 @@ public class GameScreen implements Screen {
         snakeGame.batch.draw(backGroundSprite, 0, 0);
         spawSnake();
         snakeGame.batch.draw(apple.spr, apple.x, apple.y,16, 16);
+        snakeGame.font.draw(snakeGame.batch, "Score: " + score, 10, 225);
         snakeGame.batch.end();
 
         snake.moveSnake();
@@ -90,6 +98,7 @@ public class GameScreen implements Screen {
         Rectangle snakeHead = snake.body.get(0);
         if (snakeHead.overlaps(apple)) {
             setAppleRandomPosition();
+            this.score += 3;
             snake.body.add(new Rectangle(snake.body.get(1).x, snake.body.get(1).y, 16, 16));
         }
     }
@@ -119,8 +128,22 @@ public class GameScreen implements Screen {
     public void checkSnakeDeath() {
         for (int i = snake.body.size - 1; i > 0; i--) {
             if (snake.head.overlaps(snake.body.get(i))) {
-                snakeGame.setScreen(new GameScreen(snakeGame));
+                String name = getName();
+                snakeGame.setScreen(new ScoreboardScreen(snakeGame,name, score));
             }
         }
+    }
+
+    private String getName() {
+        String name = "";
+        do {
+            name = JOptionPane.showInputDialog(
+                    null,
+                    "Put Your Nickname\n(Your name need to have three words)",
+                    "", JOptionPane.NO_OPTION);
+
+        } while (name.length() != 3);
+
+        return name.toUpperCase();
     }
 }

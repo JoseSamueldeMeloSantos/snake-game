@@ -2,7 +2,7 @@ package br.com.samuel.snakegame;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import br.com.samuel.snakegame.SnakeGame;
+import br.com.samuel.snakegame.screens.SnakeGame;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
