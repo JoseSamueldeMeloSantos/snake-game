@@ -1,12 +1,11 @@
 package br.com.samuel.snakegame.screens;
 
+import br.com.samuel.snakegame.entities.Score;
 import br.com.samuel.snakegame.model.ScoreSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-
-import java.util.Map;
 
 public class ScoreboardScreen implements Screen {
 
@@ -18,7 +17,7 @@ public class ScoreboardScreen implements Screen {
         this.snakeGame = snakeGame;
         this.scoreSystem = new ScoreSystem();
         this.scoreBackground = new Texture(Gdx.files.internal("scoreBackground.png"));
-        scoreSystem.addScore(name, score);
+        scoreSystem.addScore(new Score(name, score));
     }
 
     @Override
@@ -32,10 +31,10 @@ public class ScoreboardScreen implements Screen {
         snakeGame.batch.draw(scoreBackground, 0,0);
 
         int cont = 0;
-        for (Map.Entry<String, Integer> score: scoreSystem.getScores().entrySet()) {
+        for (Score score: scoreSystem.getScores()) {
            snakeGame.font.draw(
                    snakeGame.batch,
-                   score.getKey()+"...." + score.getValue(),
+                   score.getName() + "...."  + score.getPoints(),
                    170, 100 - cont);
            cont += 15;
        }

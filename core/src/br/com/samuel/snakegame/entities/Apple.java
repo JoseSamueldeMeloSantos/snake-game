@@ -14,6 +14,7 @@ public class Apple extends Rectangle {
         spr = new Texture(Gdx.files.internal("apple.png"));
     }
 
+
     public Apple(int x, int y, int width, int heigth) {
         this(width, heigth);
         this.x = x;

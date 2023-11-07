@@ -1,14 +1,16 @@
 package br.com.samuel.snakegame.model;
 
+import br.com.samuel.snakegame.entities.Score;
+
 public interface ScoreManager {
 
-    void addScore(String name, Integer score);
+    void addScore(Score score);
 
-    void sortSore();
+    void sortSores();
 
     void removeLastScore();
 
-    Integer reseachValueByName(String name);
+    Score reseachValueByName(String name);
 
     int checkQuantity();
 

@@ -1,20 +1,23 @@
 package br.com.samuel.snakegame.dao;
 
+import br.com.samuel.snakegame.entities.Score;
+
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 
 public class DataRecoder {
 
     private final String FILE_NAME = "scores.dat";
 
-    public Map<String, Integer> recover() throws IOException {
+    public List<Score> recover() throws IOException {
 
-        Map<String, Integer> s = null;
+        List<Score> s = null;
 
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(new FileInputStream(FILE_NAME));
-            s = (Map<String, Integer>) in.readObject();
+            s = (List<Score>) in.readObject();
         }
         catch (ClassNotFoundException e) {
             System.err.print(e);
@@ -29,7 +32,7 @@ public class DataRecoder {
         return s;
     }
 
-    public void recorder(Map<String, Integer> scores) throws IOException {
+    public void recorder(List<Score> scores) throws IOException {
         ObjectOutputStream out = null;
         try {
             out = new ObjectOutputStream(new FileOutputStream(FILE_NAME));

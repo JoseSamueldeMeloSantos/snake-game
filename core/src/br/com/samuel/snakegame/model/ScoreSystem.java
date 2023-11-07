@@ -1,6 +1,7 @@
 package br.com.samuel.snakegame.model;
 
 import br.com.samuel.snakegame.dao.DataRecoder;
+import br.com.samuel.snakegame.entities.Score;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.util.*;
 
 public class ScoreSystem implements ScoreManager {
 
-    private Map<String, Integer> scores = new HashMap<>();
+    private List<Score> scores = new ArrayList<>();
     private final int LIMIT = 5;
     private DataRecoder dr = new DataRecoder();
 
@@ -18,7 +19,7 @@ public class ScoreSystem implements ScoreManager {
 
     private void recorverData() {
         try {
-            Map<String, Integer> aux = dr.recover();
+            List<Score> aux = dr.recover();
             if (aux != null) {
                 scores = aux;
             }
@@ -40,20 +41,21 @@ public class ScoreSystem implements ScoreManager {
     }
 
     @Override
-    public void addScore(String name, Integer score) {
-        sortSore();
+    public void addScore(Score score) {
+        sortSores();
         if (checkQuantity() < LIMIT) {
-            scores.put(name, score);
-            sortSore();
+            scores.add(score);
+            sortSores();
+            recorderData();
         }
         else {
-            for (Integer sco: scores.values()) {
-                if (score >= sco) {
-                    scores.put(name, score);
+            for (Score sco: scores) {
+                if (score.getPoints() >= sco.getPoints()) {
+                    scores.add(sco);
                     if (!checkLimit()) {
                         removeLastScore();
                     }
-                    sortSore();
+                    sortSores();
                     recorderData();
                 }
             }
@@ -62,45 +64,42 @@ public class ScoreSystem implements ScoreManager {
     }
 
     @Override
-    public void sortSore() {
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(scores.entrySet());
+    public void sortSores() {
+        int n = scores.size();
+        boolean swapped;
 
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) {
-                return entry2.getValue().compareTo(entry1.getValue());
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < n - i - 1; j++) {
+                if (scores.get(j).getPoints() > scores.get(j + 1).getPoints()) {
+                    Score temp = scores.get(j);
+                    scores.set(j, scores.get(j + 1));
+                    scores.set(j + 1, temp);
+                    swapped = true;
+                }
             }
-        });
 
-        Map<String, Integer> sortedHashMap = new HashMap<>();
-        for (Map.Entry<String, Integer> entry : list) {
-            sortedHashMap.put(entry.getKey(), entry.getValue());
+            if (!swapped) {
+                break;
+            }
         }
-
-        scores = sortedHashMap;
     }
 
 
     @Override
     public void removeLastScore() {
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(scores.entrySet());
-
-
-        if (!list.isEmpty()) {
-            list.remove(list.size() - 1);
-
-            HashMap<String, Integer> newHashMap = new HashMap<>();
-            for (Map.Entry<String, Integer> entry : list) {
-                newHashMap.put(entry.getKey(), entry.getValue());
-            }
-
-            scores = newHashMap;
-        }
+        scores.remove(scores.size() -1);
     }
 
     @Override
-    public Integer reseachValueByName(String name) {
-        return scores.get(name);
+    public Score reseachValueByName(String name) {
+        for (Score s: scores){
+            if (s.getName().equals(name)) {
+                return s;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -113,7 +112,7 @@ public class ScoreSystem implements ScoreManager {
         return scores.size() <= LIMIT;
     }
 
-    public Map<String, Integer> getScores() {
+    public List<Score> getScores() {
         return scores;
     }
 }

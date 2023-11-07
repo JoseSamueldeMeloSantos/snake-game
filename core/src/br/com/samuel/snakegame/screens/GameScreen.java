@@ -33,6 +33,7 @@ public class GameScreen implements Screen {
         this.backGroundSprite = new Texture(Gdx.files.internal("backGround.png"));
         this.camera = new OrthographicCamera();
         this.apple = new Apple(16, 16);
+        setAppleRandomPosition();
         this.camera.setToOrtho(false, 400, 240);
     }
 
