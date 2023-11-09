@@ -2,6 +2,7 @@ package br.com.samuel.snakegame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -16,6 +17,7 @@ public class Snake {
 
     public Snake(int x, int y, int width, int height) {
         head = new Rectangle(x, y * 3, width, height);
+        setHeadRandomPosition();
         body = new Array<>();
         direction = Direction.STOPPED;
         SPEED = 16;
@@ -53,6 +55,10 @@ public class Snake {
         else if (direction == Direction.LEFT) head.x -= SPEED;
     }
 
+    private void setHeadRandomPosition() {
+        head.x = 16 * MathUtils.random(2, 24) - 16;
+        head.y = 16 * MathUtils.random(2, 14) - 16;
+    }
     private void moveBody() {
         Rectangle lastMember = copyRect(body.get(0));
         for (int i = 1; i < body.size; i++) {

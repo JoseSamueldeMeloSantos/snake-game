@@ -1,9 +1,12 @@
 package br.com.samuel.snakegame.screens;
 
 import br.com.samuel.snakegame.entities.Apple;
+
+
 import br.com.samuel.snakegame.entities.Snake;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import javax.swing.*;
-import java.awt.*;
+
 
 public class GameScreen implements Screen {
 
@@ -23,6 +26,8 @@ public class GameScreen implements Screen {
     private Texture tailSprite;
     private Texture backGroundSprite;
     private Integer score;
+    private Sound dieSound;
+    private Sound eatSound;
 
     public GameScreen(SnakeGame snakeGame) {
         this.snake = new Snake(0, 0, 16, 16);
@@ -31,6 +36,8 @@ public class GameScreen implements Screen {
         this.headSprite = new Texture(Gdx.files.internal("head.png"));
         this.tailSprite = new Texture(Gdx.files.internal("tail.png"));
         this.backGroundSprite = new Texture(Gdx.files.internal("backGround.png"));
+        this.dieSound = Gdx.audio.newSound(Gdx.files.internal("dieSound.ogg"));
+        this.eatSound = Gdx.audio.newSound(Gdx.files.internal("eatSound.ogg"));
         this.camera = new OrthographicCamera();
         this.apple = new Apple(16, 16);
         setAppleRandomPosition();
@@ -98,6 +105,7 @@ public class GameScreen implements Screen {
     private void checkEatApple() {
         Rectangle snakeHead = snake.body.get(0);
         if (snakeHead.overlaps(apple)) {
+            eatSound.play();
             setAppleRandomPosition();
             this.score += 3;
             snake.body.add(new Rectangle(snake.body.get(1).x, snake.body.get(1).y, 16, 16));
@@ -129,6 +137,7 @@ public class GameScreen implements Screen {
     public void checkSnakeDeath() {
         for (int i = snake.body.size - 1; i > 0; i--) {
             if (snake.head.overlaps(snake.body.get(i))) {
+                dieSound.play();
                 String name = getName();
                 snakeGame.setScreen(new ScoreboardScreen(snakeGame,name, score));
             }

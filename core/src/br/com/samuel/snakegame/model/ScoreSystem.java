@@ -15,6 +15,7 @@ public class ScoreSystem implements ScoreManager {
 
     public ScoreSystem() {
         recorverData();
+
     }
 
     private void recorverData() {
@@ -30,7 +31,7 @@ public class ScoreSystem implements ScoreManager {
         }
     }
 
-    public void recorderData() {
+    private void recorderData() {
         try {
             dr.recorder(scores);
         }
@@ -49,17 +50,15 @@ public class ScoreSystem implements ScoreManager {
             recorderData();
         }
         else {
-            for (Score sco: scores) {
-                if (score.getPoints() >= sco.getPoints()) {
-                    scores.add(sco);
-                    if (!checkLimit()) {
-                        removeLastScore();
-                    }
+            for (int i = 0; i < scores.size(); i++) {
+                if (score.getPoints() > scores.get(i).getPoints()) {
+                    scores.add(score);
                     sortSores();
+                    removeLastScore();
                     recorderData();
+                    break;
                 }
             }
-
         }
     }
 
@@ -71,7 +70,7 @@ public class ScoreSystem implements ScoreManager {
         for (int i = 0; i < n - 1; i++) {
             swapped = false;
             for (int j = 0; j < n - i - 1; j++) {
-                if (scores.get(j).getPoints() > scores.get(j + 1).getPoints()) {
+                if (scores.get(j).getPoints() < scores.get(j + 1).getPoints()) {
                     Score temp = scores.get(j);
                     scores.set(j, scores.get(j + 1));
                     scores.set(j + 1, temp);
@@ -88,7 +87,9 @@ public class ScoreSystem implements ScoreManager {
 
     @Override
     public void removeLastScore() {
-        scores.remove(scores.size() -1);
+        if (scores != null && !scores.isEmpty()) {
+            scores.remove(scores.size() - 1);
+        }
     }
 
     @Override

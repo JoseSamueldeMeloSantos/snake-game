@@ -1,6 +1,8 @@
 package br.com.samuel.snakegame.entities;
 
-public class Score {
+import java.io.Serializable;
+
+public class Score implements Serializable {
 
     private Integer points;
     private String name;

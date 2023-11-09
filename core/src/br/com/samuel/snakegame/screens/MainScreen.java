@@ -12,6 +12,7 @@ public class MainScreen implements Screen {
 
     public MainScreen(SnakeGame snakeGame) {
         this.snakeGame = snakeGame;
+        snakeGame.font.getData().setScale(1);
         this.mainBackground = new Texture(Gdx.files.internal("mainBackground.png"));
     }
 

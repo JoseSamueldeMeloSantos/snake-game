@@ -19,6 +19,11 @@ public class ScoreboardScreen implements Screen {
         this.scoreBackground = new Texture(Gdx.files.internal("scoreBackground.png"));
         scoreSystem.addScore(new Score(name, score));
     }
+    public ScoreboardScreen(SnakeGame snakeGame) {
+        this.snakeGame = snakeGame;
+        this.scoreSystem = new ScoreSystem();
+        this.scoreBackground = new Texture(Gdx.files.internal("scoreBackground.png"));
+    }
 
     @Override
     public void show() {
@@ -29,14 +34,14 @@ public class ScoreboardScreen implements Screen {
     public void render(float delta) {
         snakeGame.batch.begin();
         snakeGame.batch.draw(scoreBackground, 0,0);
-
+        snakeGame.font.getData().setScale(1.4f);
         int cont = 0;
         for (Score score: scoreSystem.getScores()) {
            snakeGame.font.draw(
                    snakeGame.batch,
                    score.getName() + "...."  + score.getPoints(),
-                   170, 100 - cont);
-           cont += 15;
+                   150, 140 - cont);
+           cont += 25;
        }
         snakeGame.batch.end();
 
